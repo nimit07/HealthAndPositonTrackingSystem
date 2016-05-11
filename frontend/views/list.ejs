@@ -1,0 +1,22 @@
+<!--listing the devices-->
+<% include header.ejs %>
+<body class=" grey darken-4">
+<div class="container">
+    <div class="row">
+        <div class="card-panel center red darken-2"><h3>ONLINE DEVICES</h3></div>
+    </div>
+
+    <% devices.forEach(function(device){ %>
+    <div class=" row blue accent-1 z-depth-2 ">
+        <div class="col s12">
+            <a href="http://localhost:3030/station/devices/<%= device._id %>">
+
+                <p class="flow-text white-text">Name:
+                    <%= device.name %></p>
+            </a></div>
+    </div>
+    <% }); %>
+
+</div>
+</body>
+

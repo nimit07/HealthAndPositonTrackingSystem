@@ -1,0 +1,144 @@
+<% include header.ejs %>
+<script type="text/javascript"
+        src="http://maps.google.com/maps/api/js?key=AIzaSyDqVYp6jLIqs0Euo-66zcy518vwOV6Bz64"></script>
+<body class=" grey darken-4">
+<div class="container">
+    <div class="row">
+        <div class="card-panel center red darken-2"><h3>DEVICE- <%= device.name %></h3></div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="card-panel teal center ">
+          <span class="white-text ">Here current gps position of device along with the biological details of soilder is shown.
+          </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card-panel teal center ">
+                <div id="gmap">
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card-panel teal center ">
+          <span class="white-text flow-text" id="pulse">Pulse counts:<%= device.pulse %>
+          </span><br>
+
+                <div class="card-panel amber right ">
+          <span class="white-text flow-text" id="lat">Latitude:<%= device.gpsData.lat %>
+          </span><br>
+          <span class="white-text flow-text" id="lon">Longitude:<%= device.gpsData.lon %>
+          </span><br>
+          <span class="white-text flow-text" id="sat">Satallite:<%= device.gpsData.sat %>
+          </span><br>
+          <span class="white-text flow-text" id="prec">Precision:<%= device.gpsData.prec %>
+          </span>
+                </div>
+                <div class="card-panel green left " id="sos">
+          <span class="white-text flow-text">SOS
+          </span><br>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(
+            // an Inteerval is set to publish details at every 6 seconds
+            function () {
+                setInterval(function () {
+                    //get request made to server to fetch data
+                    $.get("<%=url%>", function (data) {
+                        //setting raw values
+                        var pulse = data.pulse;
+                        var lon = data.gpsData.lon;
+                        var lat = data.gpsData.lat;
+                        var sat = data.gpsData.sat;
+                        var prec = data.gpsData.prec;
+                        var sos = data.gpsData.prec;
+                        var sosInterval = 0;
+                        $('#pulse').text(
+                                "Pulse Counts: " + pulse);
+                        $('#lat').text(
+                                "Latitude: " + lat);
+                        $('#lon').text(
+                                "Longitude: " + lon);
+                        $('#sat').text(
+                                "Satallite: " + sat);
+                        $('#prec').text(
+                                "Precision: " + prec);
+                        //setting sos alert values
+                        if (parseInt(sos) >= 1) {
+                            $('#sos').removeClass('green');
+                            $(function () {
+                                sosInterval = setInterval(function () {
+                                    sosAlert();
+                                }, 2000);
+                            });
+                        }
+                        if (parseInt(sos) == 0) {
+                            clearInterval(sosInterval);
+                            $('#sos').removeClass('red lighten-1');
+                            $('#sos').removeClass('green');
+                            sosAlert(false);
+
+                        }
+                        loadMap(lat, lon);
+                    });
+                }, 10000);
+            });
+    //function to be loaded on load
+    window.onload = loadMap(<%=device.gpsData.lat%>, <%=device.gpsData.lon%>);
+    function sosAlert() {
+        var sosTone = new Audio('http://www.soundsnap.com/files/tmp-stream/1462958820/43/transcode/beep_2.mp3');
+
+        $('#sos').addClass('red darken-1');
+
+        $('#sos').toggleClass('lighten-1');
+        sosTone.play();
+
+
+    }
+    // google map function
+    function loadMap(lat, lon) {
+        var pos = {};
+        pos.latitude = lat;
+        pos.longitude = lon;
+        var mapcanvas = document.createElement('div');
+        mapcanvas.id = 'mapcontainer';
+        mapcanvas.style.height = '330px';
+        mapcanvas.style.width = '100%';
+        var item = document.getElementById('gmap');
+        item.replaceChild(mapcanvas, item.childNodes[0]);
+
+        var coords = new google.maps.LatLng(pos.latitude, pos.longitude);
+
+        var options = {
+            zoom: 15,
+            center: coords,
+            mapTypeControl: false,
+            navigationControlOptions: {
+                style: google.maps.NavigationControlStyle.SMALL
+            },
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("mapcontainer"), options);
+
+        var marker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: "<%=device.name%>",
+            fontSize: 35,
+            align: 'right'
+        });
+    }
+</script>
+</body>
+
