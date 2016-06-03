@@ -11,10 +11,11 @@ The soldier with the device in the battlefield will be monitored by base station
 
 # Hardware to be used:
 
-1. GPS Receiver  EM­506 (48 Channel)
+1. UBLOX GPS Receiver NEO-6M-001 (48 Channel)
 2. Arduino uno R3
-3. PC
-4. Pulse Sensors
+3. ESP8266 Module
+3. PC(Base station Webserver)
+4. Pulse Sensor
 5. Buttons
 
 # Other uses:
