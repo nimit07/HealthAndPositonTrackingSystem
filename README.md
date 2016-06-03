@@ -16,6 +16,7 @@ The soldier with the device in the battlefield will be monitored by base station
 3. PC
 4. Pulse Sensors
 5. Buttons
+
 # Other uses:
 
 1. Personal Health Tracker
