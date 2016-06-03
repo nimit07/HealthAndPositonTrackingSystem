@@ -1,4 +1,4 @@
-# HealthAndPositonTrackingSystem
+# Soilder's Health and Positon Tracking System
 
 A wearable prototype to track the position and and the pulse rates of Soilder's over a wifi network.
 
