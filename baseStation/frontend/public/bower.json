@@ -1,0 +1,10 @@
+{
+  "name": "shtBaseStation",
+  "version": "0.0.1",
+  "authors": [
+    "Nimit Khandelwal"
+  ],
+  "dependencies": {
+    "materialize": "*"
+  }
+}
