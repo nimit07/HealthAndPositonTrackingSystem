@@ -16,6 +16,7 @@ The soldier with the device in the battlefield will be monitored by base station
 3. ESP8266 Module
 3. PC(Base station Webserver)
 4. Pulse Sensor
+5. Leds
 5. Buttons
 
 # Other uses:
